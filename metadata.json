@@ -1,0 +1,5 @@
+{
+  "name": "GoogleAIStudio",
+  "description": "A high-fidelity clone of the Google AI Studio interface featuring prompt engineering workspace, library management, and real-time Gemini API integration.",
+  "requestFramePermissions": []
+}
