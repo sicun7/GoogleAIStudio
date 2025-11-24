@@ -1,8 +1,9 @@
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import { RunConfig } from "../types";
 
-// Initialize the client
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+// Initialize the client with safe environment variable access
+const apiKey = (typeof process !== 'undefined' && process.env && process.env.API_KEY) || '';
+const ai = new GoogleGenAI({ apiKey });
 
 export const generateContentStream = async (
   prompt: string,
@@ -12,14 +13,9 @@ export const generateContentStream = async (
 ): Promise<void> => {
   try {
     // Determine strict model name mapping based on user selection or defaults
-    // Mapping internal UI IDs to API specific strings if needed, but we used correct ones in constants.
     const modelId = config.model;
 
     // Build the chat request
-    // Note: ai.chats.create is great for stateful chats, but for a "Run" button in a studio 
-    // that might reset or re-run, we can often just use generateContent with full history 
-    // OR create a ephemeral chat. Let's use the Chat API for correct history handling.
-
     const chat = ai.chats.create({
       model: modelId,
       config: {
